@@ -46,24 +46,56 @@ function voteConfirmation () {
   var parent = current.parentNode
   parent.removeChild(current)
   var el = bel`
-  <div class=${css.confirmationMain}>
-    <div class=${css.confirmationHead}>
-      <div class=${css.confirmationTitle}>Confirm vote?</div>
-      <div class=${css.submitContainer}>
-        <div class=${css.submitButton}>Submit</div>
-        <div class=${css.submitText}>By clicking submit you confirm that your selection is correct!</div>
+    <div class=${css.transparentLayer} id="transparentLayer">
+      <i class="fa fa-close ${css.close}" onclick=${()=>backToProposals()}></div>
+      <div class=${css.confirmationMain}>
+        <div class=${css.confirmationHead}>
+          <div class=${css.confirmationTitle}>Confirm vote?</div>
+          <div class=${css.submitContainer}>
+            <div class=${css.submitButton}>Submit</div>
+            <div class=${css.submitText}>By clicking submit you confirm that your selection is correct!</div>
+          </div>
+        </div>
+        <div class=${css.confirmationBox}>
+          <div class=${css.confirmationTitle}>Title</div>
+          <div class=${css.confirmationDesc}>Description of this proposal goes here</div>
+        </div>
       </div>
     </div>
-    <div class=${css.confirmationBox}>
-      <div class=${css.confirmationTitle}>Title</div>
-      <div class=${css.confirmationDesc}>Description of this proposal goes here</div>
-    </div>
-  </div>
   `
   parent.appendChild(el)
 }
 
+function backToProposals () {
+  var explanationBox = bel`
+      <div class=${css.explanationBox} id="explanationBox">
+        <div class=${css.text}>Vote for best proposal in this round!
+        </div>
+      </div>
+    `
+  var confirmationView = document.querySelector("#transparentLayer")
+  var parent = confirmationView.parentNode
+  parent.removeChild(confirmationView)
+  var el = bel`
+    <div class=${css.proposalsMain} id="proposalsMain">
+      <div class=${css.title}>Proposals</div>
+      <div class=${css.subtitle}>Proposal title/description</div>
+      <div class=${css.tip}>Choose only one</div>
+      ${loadProposals()}
+    </div>
+  `
+  parent.appendChild(explanationBox)
+  parent.appendChild(el)
+}
+
 var css = csjs`
+  .transparentLayer {
+    position: relative;
+    background-color: transparent;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+  }
   .proposalsMain,
   .confirmationMain {
     font-weight: 900;
@@ -165,5 +197,30 @@ var css = csjs`
   .submitText {
     font-size: 16px;
     width: 60%;
+  }
+  .close {
+    font-size: 14px;
+    display: flex;
+    z-index: 999;
+    position: absolute;
+    right: 10%;
+    top: 20%;
+    color: #b61114;
+    cursor: pointer;
+  }
+  .explanationBox {
+    font-weight: 1000;
+    letter-spacing: 1px;
+    background-color: #fcfbec;
+    width: 70%;
+    padding: 20px 0 15px 10px;
+    margin: 30px 0;
+  }
+  .text {
+    font-weight: 1000;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `
