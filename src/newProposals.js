@@ -1,6 +1,7 @@
 var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
+var getData = require('./src/data.js')
 
 module.exports = newProposals
 
@@ -10,26 +11,30 @@ function newProposals () {
       <div class=${css.title}>Proposals</div>
       <div class=${css.subtitle}>Proposal title/description</div>
       <div class=${css.tip}>Choose only one</div>
-      ${proposalContainer(el)}
-      ${proposalContainer(el)}
-      ${proposalContainer(el)}
-      ${proposalContainer(el)}
-      ${proposalContainer(el)}
-      ${proposalContainer(el)}
+      ${loadProposals()}
     </div>
   `
 }
 
-function proposalContainer (el) {
+function loadProposals () {
+  var data = getData()
+  var el = bel`<div></div>`
+  data.map(proposal => {
+    el.appendChild(proposalContainer(proposal))
+  })
+  return el
+}
+
+function proposalContainer (proposal) {
   return bel`
     <div class=${css.proposalContainer}>
       <div class=${css.proposalBox}>
         <i class="fa fa-angle-double-right ${css.proposalIcon}"></i>
         <div class=${css.proposalText}>
-          <div class=${css.proposalTitle}>My proposal</div>
-          <div class=${css.proposalDesc}>This is my proposal, check it out and vote for me</div>
+          <div class=${css.proposalTitle}>${proposal.title}</div>
+          <div class=${css.proposalDesc}>${proposal.description}</div>
         </div>
-        <input type="radio" class=${css.radioButton} name="proposal" onclick=${()=>voteConfirmation()}>
+        <input type="radio" class=${css.radioButton} name=${proposal.id} onclick=${()=>voteConfirmation()}>
       </div>
     </div>`
 }
