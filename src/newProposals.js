@@ -2,6 +2,7 @@ var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
 var getData = require('./src/data.js')
+var voteConfirmation = require('./src/voteConfirmation.js')
 
 module.exports = newProposals
 
@@ -26,86 +27,41 @@ function loadProposals () {
 }
 
 function proposalContainer (proposal) {
+  var caret = bel`<i class="fa fa-angle-double-right ${css.proposalIcon}" id="caret"></i>`
+  var description = bel`<div class=${css.proposalDesc} id="proposalDesc">${(proposal.description).substring(0, 49) + "..."}</div>`
   return bel`
-    <div class=${css.proposalContainer}>
+    <div class=${css.proposalContainer} onclick=${()=>showHideDetails(proposal, caret, description)}>
       <div class=${css.proposalBox}>
-        <i class="fa fa-angle-double-right ${css.proposalIcon}"></i>
+        ${caret}
         <div class=${css.proposalText}>
           <div class=${css.proposalTitle}>${proposal.title}</div>
-          <div class=${css.proposalDesc}>${proposal.description}</div>
+          ${description}
         </div>
-        <input type="radio" class=${css.radioButton} name=${proposal.id} onclick=${()=>voteConfirmation()}>
+        <input type="radio" class=${css.radioButton} name=${proposal.id} onclick=${()=>voteConfirmation(proposal)}>
       </div>
     </div>`
 }
 
-function voteConfirmation () {
-  var current = document.querySelector("#proposalsMain")
-  var explanationBox = document.querySelector("#explanationBox")
-  explanationBox.parentNode.removeChild(explanationBox)
-  var parent = current.parentNode
-  parent.removeChild(current)
-  var el = bel`
-    <div class=${css.transparentLayer} id="transparentLayer">
-      <i class="fa fa-close ${css.close}" onclick=${()=>backToProposals()}></div>
-      <div class=${css.confirmationMain}>
-        <div class=${css.confirmationHead}>
-          <div class=${css.confirmationTitle}>Confirm vote?</div>
-          <div class=${css.submitContainer}>
-            <div class=${css.submitButton}>Submit</div>
-            <div class=${css.submitText}>By clicking submit you confirm that your selection is correct!</div>
-          </div>
-        </div>
-        <div class=${css.confirmationBox}>
-          <div class=${css.confirmationTitle}>Title</div>
-          <div class=${css.confirmationDesc}>Description of this proposal goes here</div>
-        </div>
-      </div>
-    </div>
-  `
-  parent.appendChild(el)
-}
-
-function backToProposals () {
-  var explanationBox = bel`
-      <div class=${css.explanationBox} id="explanationBox">
-        <div class=${css.text}>Vote for best proposal in this round!
-        </div>
-      </div>
-    `
-  var confirmationView = document.querySelector("#transparentLayer")
-  var parent = confirmationView.parentNode
-  parent.removeChild(confirmationView)
-  var el = bel`
-    <div class=${css.proposalsMain} id="proposalsMain">
-      <div class=${css.title}>Proposals</div>
-      <div class=${css.subtitle}>Proposal title/description</div>
-      <div class=${css.tip}>Choose only one</div>
-      ${loadProposals()}
-    </div>
-  `
-  parent.appendChild(explanationBox)
-  parent.appendChild(el)
+function showHideDetails (proposal, caret, el) {
+  if (el.innerText.length < 54) {
+    caret.classList.remove("fa-angle-double-right")
+    caret.classList.add("fa-angle-double-down")
+    el.innerText = proposal.description
+  } else {
+    caret.classList.remove("fa-angle-double-down")
+    caret.classList.add("fa-angle-double-right")
+    el.innerText = (proposal.description).substring(0, 49) + "..."
+  }
 }
 
 var css = csjs`
-  .transparentLayer {
-    position: relative;
-    background-color: transparent;
-    width: 90%;
-    display: flex;
-    justify-content: center;
-  }
-  .proposalsMain,
-  .confirmationMain {
+  .proposalsMain {
+    animation: fadeIn 2s;
     font-weight: 900;
     letter-spacing: 2px;
     background-color: #fcfbec;
     padding: 30px 0 15px 20px;
     width: 70%;
-  }
-  .confirmationMain {
-    margin-top: 125px;
   }
   .title {
     font-size: 60px;
@@ -120,10 +76,10 @@ var css = csjs`
   .tip {
     color: #b61114;
     font-size: 16px;
-
   }
   .proposalContainer {
     display: flex;
+    cursor: pointer;
   }
   .proposalBox {
     display: flex;
@@ -131,36 +87,19 @@ var css = csjs`
     align-items: center;
     border: 2px solid black;
     width: 85%;
-    height: 70px;
     margin: 5px 0 10px 0;
-  }
-  .confirmationBox  {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid black;
-    width: 85%;
-    margin: 30px 0 10px 0;
-    padding: 5%;
-  }
-  .confirmationTitle {
-    font-size: 45px;
-    text-transform: uppercase;
-    padding: 0 0 10px 0;
-  }
-  .confirmationDesc {
-    font-size: 26px;
-    color: #b61114;
+    padding: 2%;
   }
   .proposalIcon {
-    margin: 0 10% 0 5%;
+    margin: 0 0 0 5%;
     color: #b61114;
+    width: 10%;
   }
   .proposalText {
-
+    width: 70%;
   }
   .proposalTitle {
     font-size: 30px;
-    margin: 0 20% 0 0;
     text-transform: uppercase;
   }
   .proposalDesc {
@@ -168,53 +107,9 @@ var css = csjs`
     color: #b61114;
   }
   .radioButton {
-    margin-left: 20%;
-  }
-  .confirmationHead {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  .submitContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    color: #b61114;
-  }
-  .submitButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid black;
-    padding: 5%;
-    width: 20%;
-  }
-  .submitButton:hover {
-    background-color: #e2e1dc;
+    margin-left: 10%;
     cursor: pointer;
-  }
-  .submitText {
-    font-size: 16px;
-    width: 60%;
-  }
-  .close {
-    font-size: 14px;
-    display: flex;
-    z-index: 999;
-    position: absolute;
-    right: 10%;
-    top: 20%;
-    color: #b61114;
-    cursor: pointer;
-  }
-  .explanationBox {
-    font-weight: 1000;
-    letter-spacing: 1px;
-    background-color: #fcfbec;
-    width: 70%;
-    padding: 20px 0 15px 10px;
-    margin: 30px 0;
+    font-size: 50px;
   }
   .text {
     font-weight: 1000;
@@ -222,5 +117,13 @@ var css = csjs`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 `

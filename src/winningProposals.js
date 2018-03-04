@@ -6,7 +6,7 @@ module.exports = winningProposals
 
 function winningProposals () {
   return bel`
-    <div class=${css.main}>
+    <div class=${css.proposalsMain}>
       <div class=${css.proposalContainer}>
         <div class=${css.proposalInner}><div class=${css.proposalTitle}>Round 1 winner</div></div>
       </div>
@@ -24,11 +24,11 @@ function winningProposals () {
 }
 
 var css = csjs`
-  .main {
+  .proposalsMain {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: 10vh;
+    margin-top: 3%;
     width: 80%;
   }
   .proposalContainer {
