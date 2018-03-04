@@ -42,7 +42,7 @@ var css = csjs`
   }
 `
 
-var text = 'Vote for proposal and help us give the green light to projects that benefit the community!'
+var text = 'Vote for proposal and help us reward the projects that benefit the community!'
 var explanationBox = explanationBox(text)
 var switchViewButton = switchView()
 var centralEl = newProposals()
@@ -61,10 +61,11 @@ function landingPage() {
 }
 
 function switchView () {
-  return bel`<div class=${css.switchView} onclick=${()=>applyForGrant()}>Apply for grant</div>`
+  return bel`<div class=${css.switchView} onclick=${()=>addNewProposal()}>Create new proposal</div>`
 }
 
-function applyForGrant () {
+function addNewProposal () {
+  explanationBox.innerText = 'Create new proposal and compete for the crypto funds!'
   switchViewButton.innerText = 'Vote for proposal'
   newCentralEl = applicationForm()
   var parent = centralEl.parentNode
@@ -76,12 +77,13 @@ function applyForGrant () {
 }
 
 function voteView (newCentralEl) {
-  switchViewButton.innerText = 'Apply for grant'
+  explanationBox.innerText = text
+  switchViewButton.innerText = 'Create new proposal'
   var parent = newCentralEl.parentNode
   parent.removeChild(newCentralEl)
   parent.appendChild(centralEl)
   switchViewButton.onclick = null
-  switchViewButton.onclick = ()=>applyForGrant()
+  switchViewButton.onclick = ()=>addNewProposal()
 }
 
 /******************************
