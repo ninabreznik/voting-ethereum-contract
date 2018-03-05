@@ -1,8 +1,8 @@
 var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
-var getData = require('./src/data.js')
-var voteConfirmation = require('./src/voteConfirmation.js')
+var getData = require('./data.js')
+var voteConfirmation = require('./voteConfirmation.js')
 var main
 
 module.exports = newProposals

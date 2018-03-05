@@ -2,10 +2,10 @@ var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
 
-var winningProposals = require('./src/winningProposals.js')
-var newProposals = require('./src/newProposals.js')
-var explanationBox = require('./src/explanationBox.js')
-var applicationForm = require('./src/applicationForm.js')
+var winningProposals = require('./winningProposals.js')
+var newProposals = require('./newProposals.js')
+var explanationBox = require('./explanationBox.js')
+var applicationForm = require('./applicationForm.js')
 
 var fontAwesome = bel`<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>`
 var font = [bel`<link href="https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" rel="stylesheet">`]
