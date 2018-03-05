@@ -13,23 +13,42 @@ function applicationForm () {
     <div class=${css.formContainer}>
       <div class=${css.formField}>
         <div class=${css.formFieldText}>Proposal title</div>
-        <input class=${css.formFieldInput}>
+        <input class=${css.formFieldInput} id="title">
       </div>
       <div class=${css.formField}>
         <div class=${css.formFieldText}>Description</div>
-        <textarea class=${css.formFieldInput}></textarea>
+        <textarea class=${css.formFieldInput} id="description"></textarea>
       </div>
       <div class=${css.formField}>
         <div class=${css.formFieldText}> Ethereum public key</div>
-        <input class=${css.formFieldInput}>
+        <input class=${css.formFieldInput} id="address">
       </div>
       <div class=${css.submitContainer}>
         <div class=${css.submitText}>By clicking submit your proposal will be immediatelly published!</div>
-        <div class=${css.submitButton}>Submit</div>
+        <div class=${css.submitButton} onclick=${submit}>Submit</div>
       </div>
     </div>
   </div>
   `
+}
+
+function submit () {
+  var t = document.getElementById("title")
+  var d = document.getElementById("description")
+  var a = document.getElementById("address")
+  t.style.borderColor = 'black'
+  d.style.borderColor = 'black'
+  a.style.borderColor = 'black'
+  var title = t.value
+  var description = d.value
+  var address = a.value
+  if (!title) {t.style.borderColor = '#b61114'}
+  if (!description) {d.style.borderColor = '#b61114'}
+  if (!address) {a.style.borderColor = '#b61114'}
+  if (title && description && address) {
+    console.log('sending data')
+    console.log(title, description, address)
+  }
 }
 
 var css = csjs`
@@ -72,6 +91,7 @@ var css = csjs`
     border: 2px solid black;
     padding: 3%;
     width: 30%;
+    font-size: 14px;
   }
   .formFieldText {
     color: #b61114;

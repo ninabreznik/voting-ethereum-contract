@@ -1,19 +1,17 @@
 var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
-var backToHomePage = require('./src/backToHomePage.js')
+
+var main
+var listOfProposals
 
 module.exports = voteConfirmation
 
-function voteConfirmation (proposal) {
-  var current = document.querySelector("#proposalsMain")
-  var explanationBox = document.querySelector("#explanationBox")
-  explanationBox.parentNode.removeChild(explanationBox)
-  var parent = current.parentNode
-  parent.removeChild(current)
-  var el = bel`
+function voteConfirmation (proposal, el) {
+  listOfProposals = el
+  main = bel`
     <div class=${css.transparentLayer} id="transparentLayer">
-      <i class="fa fa-close ${css.close}" onclick=${()=>backToHomePage()}></div>
+      <i class="fa fa-close ${css.close}" onclick=${()=>backToProposalsList()}></div>
       <div class=${css.confirmationMain}>
         <div class=${css.confirmationHead}>
           <div class=${css.confirmationTitle}>Confirm vote?</div>
@@ -29,7 +27,13 @@ function voteConfirmation (proposal) {
       </div>
     </div>
   `
-  parent.appendChild(el)
+  return main
+}
+
+function backToProposalsList () {
+  document.querySelector("#explanationBox").style.opacity = 1
+  var parent = main.parentNode
+  parent.replaceChild(listOfProposals, main)
 }
 
 var css = csjs`
@@ -42,7 +46,6 @@ var css = csjs`
     justify-content: center;
   }
   .confirmationMain {
-    margin-top: 125px;
     font-weight: 900;
     letter-spacing: 2px;
     background-color: #fcfbec;
@@ -54,8 +57,8 @@ var css = csjs`
     display: flex;
     z-index: 999;
     position: absolute;
-    right: 5%;
-    top: 15%;
+    right: 7%;
+    top: -10%;
     color: #fcfbec;
     cursor: pointer;
   }

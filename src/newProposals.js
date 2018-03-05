@@ -3,11 +3,12 @@ var csjs = require('csjs-inject')
 var Web3 = require('web3')
 var getData = require('./src/data.js')
 var voteConfirmation = require('./src/voteConfirmation.js')
+var main
 
 module.exports = newProposals
 
 function newProposals () {
-  return bel`
+  main = bel`
     <div class=${css.proposalsMain} id="proposalsMain">
       <div class=${css.title}>Proposals</div>
       <div class=${css.subtitle}>Proposal title/description</div>
@@ -15,6 +16,7 @@ function newProposals () {
       ${loadProposals()}
     </div>
   `
+  return main
 }
 
 function loadProposals () {
@@ -37,9 +39,17 @@ function proposalContainer (proposal) {
           <div class=${css.proposalTitle}>${proposal.title}</div>
           ${description}
         </div>
-        <input type="radio" class=${css.radioButton} name=${proposal.id} onclick=${()=>voteConfirmation(proposal)}>
+        <input type="radio" class=${css.radioButton} name="vote" onclick=${(e)=>confirmVote(proposal, e)}>
       </div>
     </div>`
+}
+
+function confirmVote (proposal, e) {
+  e.stopPropagation()
+  document.querySelector("#explanationBox").style.opacity = 0
+  var parent = main.parentNode
+  var newEl = voteConfirmation(proposal, main)
+  parent.replaceChild(newEl, main)
 }
 
 function showHideDetails (proposal, caret, el) {
