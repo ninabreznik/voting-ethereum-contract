@@ -1,30 +1,26 @@
 var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
-var getData = require('./data.js')
-var voteConfirmation = require('./voteConfirmation.js')
+//var getData = require('./src/data.js')
+var voteConfirmation = require('./src/voteConfirmation.js')
 var main
 
 module.exports = newProposals
 
-function newProposals () {
+function newProposals(data) {
   main = bel`
     <div class=${css.proposalsMain} id="proposalsMain">
       <div class=${css.title}>Proposals</div>
       <div class=${css.subtitle}>Proposal title/description</div>
       <div class=${css.tip}>Choose only one</div>
-      ${loadProposals()}
+      ${loadProposals(data)}
     </div>
   `
   return main
 }
 
-function loadProposals () {
-  var data = getData()
-  var el = bel`<div></div>`
-  data.map(proposal => {
-    el.appendChild(proposalContainer(proposal))
-  })
+function loadProposals (data) {
+  var el = bel`<div>${data.map(proposalContainer)}</div>`
   return el
 }
 
@@ -53,7 +49,7 @@ function confirmVote (proposal, e) {
 }
 
 function showHideDetails (proposal, caret, el) {
-  if (el.innerText.length < 54) {
+  if (caret.classList.contains("fa-angle-double-right")) {
     caret.classList.remove("fa-angle-double-right")
     caret.classList.add("fa-angle-double-down")
     el.innerText = proposal.description

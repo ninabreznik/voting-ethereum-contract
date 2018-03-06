@@ -1,70 +1,650 @@
-module.exports = loadData
 
-function loadData () {
-  var obj = [
+module.exports = getData
+
+function getData (opts, done) {
+  var web3 = opts.web3
+  /* ----------------------------
+  AwardToken.sol CONTRACT
+  ------------------------------ */
+
+  // ABI (in Remix: compile tab/details buton)
+  var AwardTokenABI = [
     {
-      id: 1,
-      title: 'Proposal 1',
-      description: 'Lorem ipsum dolor sit amet, mei ei accusam menandri postulant, epicurei electram mel cu. In pri voluptatum posidonium conclusionemque, et legere apeirian mea. Illum omnes suscipiantur cu his, ne partiendo reprimique sit. Error veritus ut nec. Ea vidit nemore salutandi duo, ex pri viris iisque legimus, ut eum graeci denique.',
-      author: '',
-      public_key: ''
+      "constant": true,
+      "inputs": [],
+      "name": "mintingFinished",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      id: 2,
-      title: 'Proposal 2',
-      description: 'Suas possim sea ea, in dicat altera pri, quas tritani sed ne. Tempor antiopam facilisis per ne, consequat accommodare definitionem te sit, no has mentitum suavitate interesset. Soleat aeterno sit in, no per hendrerit tincidunt scribentur, mel ut dissentias voluptatibus. Te laoreet repudiandae vis. Pri ut illud audire, quas omnis elaboraret at his. Vide iudicabit ut vix, est elitr pertinax ad. Usu cu posse fugit soleat, ius nostro tincidunt ex, sonet nusquam mnesarchum.',
-      author: '',
-      public_key: ''
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_spender",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      id: 3,
-      title: 'Proposal 3',
-      description: 'Ei labores eligendi usu, rebum efficiantur sit et. Vis cu amet volutpat laboramus. Perfecto evertitur no quo, eum ex facilis salutandi. Quo modus oratio convenire te, id qui docendi vivendum postulant. Mundi possit elaboraret ex eam, ex eros eius mei. Reque apeirian eu qui, te mei regione concludaturque, pro et equidem gubergren.',
-      author: '',
-      public_key: ''
+      "constant": true,
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      id: 4,
-      title: 'Proposal 4',
-      description: 'Ei decore epicuri insolens vel, saepe viderer insolens pri id. Quo omnesque pertinacia an, quo soluta referrentur in, nam ad bonorum deleniti electram. Eu pri alia labitur iuvaret, in inani quodsi his. Nec no essent civibus omittantur, mea eu dicat numquam, tota dicant perpetua ei eos.',
-      author: '',
-      public_key: ''
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      id: 5,
-      title: 'Proposal 5',
-      description: 'At odio movet libris vel, illum commodo splendide ex nec. Ex eum summo labore nemore, cibo movet feugiat in mea, cum posidonium liberavisse an. Ullum vituperata ex sea. Vis natum bonorum definitionem no.',
-      author: '',
-      public_key: ''
+      "constant": true,
+      "inputs": [],
+      "name": "currBallot",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      id: 6,
-      title: 'Proposal 6',
-      description: 'Lorem ipsum dolor sit amet, vis ad porro solet aliquando, ad hendrerit voluptatum philosophia nam. Sit viris noster fastidii eu, tamquam minimum in his, lucilius adipisci antiopam qui ad. Ei mollis fabellas abhorreant eos, pri id putent postulant suscipiantur. Ea pro inani dolor deseruisse, erant exerci nonumes usu et. Ea blandit mandamus sit, est ad adhuc expetenda referrentur. Sea duis sapientem torquatos ea.',
-      author: '',
-      public_key: ''
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "mint",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      id: 7,
-      title: 'Proposal 7',
-      description: 'Lorem ipsum dolor sit amet, mei ei accusam menandri postulant, epicurei electram mel cu. In pri voluptatum posidonium conclusionemque, et legere apeirian mea. Illum omnes suscipiantur cu his, ne partiendo reprimique sit. Error veritus ut nec. Ea vidit nemore salutandi duo, ex pri viris iisque legimus, ut eum graeci denique.',
-      author: '',
-      public_key: ''
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_spender",
+          "type": "address"
+        },
+        {
+          "name": "_subtractedValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "decreaseApproval",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      id: 8,
-      title: 'Proposal 8',
-      description: 'At odio movet libris vel, illum commodo splendide ex nec. Ex eum summo labore nemore, cibo movet feugiat in mea, cum posidonium liberavisse an. Ullum vituperata ex sea. Vis natum bonorum definitionem no.',
-      author: '',
-      public_key: ''
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      id: 9,
-      title: 'Proposal 9',
-      description: 'Lorem ipsum dolor sit amet, mei ei accusam menandri postulant, epicurei electram mel cu. In pri voluptatum posidonium conclusionemque, et legere apeirian mea. Illum omnes suscipiantur cu his, ne partiendo reprimique sit. Error veritus ut nec. Ea vidit nemore salutandi duo, ex pri viris iisque legimus, ut eum graeci denique.',
-      author: '',
-      public_key: ''
+      "constant": false,
+      "inputs": [],
+      "name": "finishMinting",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "prevWinners",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_spender",
+          "type": "address"
+        },
+        {
+          "name": "_addedValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "increaseApproval",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "name": "_spender",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "closeRound",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_msg",
+          "type": "string"
+        }
+      ],
+      "name": "log",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_win",
+          "type": "address"
+        }
+      ],
+      "name": "winLog",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_num",
+          "type": "uint256"
+        }
+      ],
+      "name": "uintLog",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Mint",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "MintFinished",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
     }
   ]
-  return obj
+  // ADDRESS (in Remix:  create contract/copy instance address)
+  var AwardTokenAddress = '0xa33027f815413d2c71ea740b8d5aaec284639fa4'
+  var AwardTokenContract = new web3.eth.Contract(AwardTokenABI, AwardTokenAddress, {})
+
+  /* ----------------------------
+  Ballot.sol CONTRACT
+  ------------------------------ */
+  var BallotABI = [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "proposals",
+      "outputs": [
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "voteCount",
+          "type": "uint256"
+        },
+        {
+          "name": "targetAddress",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "desc",
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "targetAddr",
+          "type": "address"
+        }
+      ],
+      "name": "addProposal",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "winningProposal",
+      "outputs": [
+        {
+          "name": "currLeader",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "timeOut",
+      "outputs": [
+        {
+          "name": "timeOver",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getProposals",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "proposal",
+          "type": "address"
+        }
+      ],
+      "name": "vote",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "proposalsSender",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "duration",
+          "type": "uint256"
+        },
+        {
+          "name": "startTime",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_msg",
+          "type": "string"
+        }
+      ],
+      "name": "log",
+      "type": "event"
+    }
+  ]
+  // Calling currBallot method will return a Current Ballot address
+  AwardTokenContract.methods.currBallot().call({}, callback)
+  // Having a Current Ballot address, we can now connect to existing BallotContract and get access to Ballot.sol functions
+  var BallotContract
+
+  function callback (err, BallotAddress) {
+    BallotContract = new web3.eth.Contract(BallotABI, BallotAddress, {})
+    console.log('BallotContract')
+    console.log(BallotContract)
+    getAddresses(null)
+  }
+
+  var allProposals = []
+  counter = 0
+
+  function getAddresses (err) {
+    BallotContract.methods.getProposals().call({}, function (error, arrayOfAddresses) { // get addresses of all proposal creators
+      if (error) return done(error)
+      arrayOfAddresses.forEach(function (address) {
+        BallotContract.methods.proposals(address).call({}, function (error, proposal) {  // get each proposal based on the creator's address
+        if (error) return done(error)
+        allProposals.push(proposal)
+        counter += 1
+        if (counter === arrayOfAddresses.length) {
+          done(null, { BallotContract, allProposals })
+        }
+      })
+    })
+  })
+}
+
+// // VOTE FOR ONE PROPOSAL
+// BallotContract.methods.vote(proposalAddress).send({ from: <voter address>}, function (error, votingDone) {
+  //   console.log('votingDone')
+  //   console.log(votingDone)
+  //   next5(null, BallotContract)
+  // })
+
+
+  // @TODO GET PAST WINNERS
+  //
+  // // missing!!!
+  //
+
+
+  // // web3 default account / or first in the list => always from field when sending TX
+  //
+  // //
+  // // var currentBallot = contractAwardToken.methods.currBallot.call()
+  // // console.log(currentBallol)
+
 }

@@ -4,7 +4,7 @@ var Web3 = require('web3')
 
 module.exports = applicationForm
 
-function applicationForm () {
+function applicationForm (BallotContract) {
   return bel`
   <div class=${css.formMain}>
     <div class=${css.formTitle}>Application form</div>
@@ -25,14 +25,14 @@ function applicationForm () {
       </div>
       <div class=${css.submitContainer}>
         <div class=${css.submitText}>By clicking submit your proposal will be immediatelly published!</div>
-        <div class=${css.submitButton} onclick=${submit}>Submit</div>
+        <div class=${css.submitButton} id="submit" onclick=${()=>submit(BallotContract)}>Submit</div>
       </div>
     </div>
   </div>
   `
 }
 
-function submit () {
+function submit (BallotContract) {
   var t = document.getElementById("title")
   var d = document.getElementById("description")
   var a = document.getElementById("address")
@@ -46,8 +46,16 @@ function submit () {
   if (!description) {d.style.borderColor = '#b61114'}
   if (!address) {a.style.borderColor = '#b61114'}
   if (title && description && address) {
-    console.log('sending data')
-    console.log(title, description, address)
+    // CREATE NEW PROPOSAL
+    // @TODO: currently accepted address is only the one copied from Metamask, addresses copied from Remix don't seem to work!
+    address = address.toLowerCase().replace('0x', '')
+    BallotContract.methods.addProposal(description, title, address).send({ from: address}, function (error, proposalCreated) {
+      var submit = document.getElementById("submit")
+      submit.style.borderColor = 'green'
+      submit.style.color = 'green'
+      submit.innerText = 'Success!'
+      setTimeout(function () {location.reload()}, 2000)
+    })
   }
 }
 
