@@ -4,12 +4,11 @@ var Web3 = require('web3')
 
 module.exports = applicationForm
 
-function applicationForm (BallotContract) {
-  return bel`
-  <div class=${css.formMain}>
-    <div class=${css.formTitle}>Application form</div>
-    <div class=${css.formSubtitle}>Proposal title/description/address</div>
-    <div class=${css.formTip}>Fill out the form and click submit!</div>
+function applicationForm (BallotContract, fromAddress) {
+  var formTitle = bel`<div class=${css.formTitle}>Application form</div>`
+  var formSubtitle = bel`<div class=${css.formSubtitle}>Proposal title/description/address</div>`
+  var formTip = bel`<div class=${css.formTip}>Fill out the form and click submit!</div>`
+  var formContainer = bel`
     <div class=${css.formContainer}>
       <div class=${css.formField}>
         <div class=${css.formFieldText}>Proposal title</div>
@@ -19,45 +18,50 @@ function applicationForm (BallotContract) {
         <div class=${css.formFieldText}>Description</div>
         <textarea class=${css.formFieldInput} id="description"></textarea>
       </div>
-      <div class=${css.formField}>
-        <div class=${css.formFieldText}> Ethereum public key</div>
-        <input class=${css.formFieldInput} id="address">
-      </div>
       <div class=${css.submitContainer}>
-        <div class=${css.submitText}>By clicking submit your proposal will be immediatelly published!</div>
-        <div class=${css.submitButton} id="submit" onclick=${()=>submit(BallotContract)}>Submit</div>
+        <div class=${css.submitText} id="text">By clicking submit your proposal will be immediatelly sent!</div>
+        <div class=${css.submitButton} id="submit" onclick=${()=>submit()}>Submit</div>
       </div>
     </div>
+  `
+  var el = bel`
+  <div class=${css.formMain}>
+    ${formTitle}
+    ${formSubtitle}
+    ${formTip}
+    ${formContainer}
   </div>
   `
+
+  function submit () {
+
+    var t = document.getElementById("title")
+    var d = document.getElementById("description")
+    var title = t.value
+    var description = d.value
+    t.style.borderColor = 'black'
+    d.style.borderColor = 'black'
+    if (!title) {t.style.borderColor = '#b61114'}
+    if (!description) {d.style.borderColor = '#b61114'}
+    var address = fromAddress
+    if (title && description && address) {
+      // CREATE NEW PROPOSAL
+      BallotContract.methods.addProposal(description, title, address).send({ from: address}, function (error, txHash) {
+        if (error) return console.error(error)
+        var url = 'https://ropsten.etherscan.io/tx/' + txHash
+        formTitle.style.color = 'green'
+        formTitle.innerText = 'Proposal sent'
+        formSubtitle.innerHTML = `Click <a href=${url} target="_blank">here</a> to get your transaction receipt.`
+        formTip.innerText = ''
+        t.value = null
+        d.value = null
+      })
+    }
+  }
+
+  return el
 }
 
-function submit (BallotContract) {
-  var t = document.getElementById("title")
-  var d = document.getElementById("description")
-  var a = document.getElementById("address")
-  t.style.borderColor = 'black'
-  d.style.borderColor = 'black'
-  a.style.borderColor = 'black'
-  var title = t.value
-  var description = d.value
-  var address = a.value
-  if (!title) {t.style.borderColor = '#b61114'}
-  if (!description) {d.style.borderColor = '#b61114'}
-  if (!address) {a.style.borderColor = '#b61114'}
-  if (title && description && address) {
-    // CREATE NEW PROPOSAL
-    // @TODO: currently accepted address is only the one copied from Metamask, addresses copied from Remix don't seem to work!
-    address = address.toLowerCase().replace('0x', '')
-    BallotContract.methods.addProposal(description, title, address).send({ from: address}, function (error, proposalCreated) {
-      var submit = document.getElementById("submit")
-      submit.style.borderColor = 'green'
-      submit.style.color = 'green'
-      submit.innerText = 'Success!'
-      setTimeout(function () {location.reload()}, 2000)
-    })
-  }
-}
 
 var css = csjs`
   .formMain {
@@ -139,5 +143,12 @@ var css = csjs`
     100% {
       opacity: 1;
     }
+  }
+  a {
+    text-decoration: none;
+    color: green;
+  }
+  a:hover {
+    text-decoration: underline; 
   }
 `

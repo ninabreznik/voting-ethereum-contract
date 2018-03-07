@@ -3,21 +3,20 @@ var csjs = require('csjs-inject')
 var Web3 = require('web3')
 
 var main
-var listOfProposals
 
 module.exports = voteConfirmation
 
-function voteConfirmation (proposal, el) {
-  listOfProposals = el
+function voteConfirmation (proposal, BallotContract, fromAddress) {
+
   main = bel`
     <div class=${css.transparentLayer} id="transparentLayer">
-      <i class="fa fa-close ${css.close}" onclick=${()=>backToProposalsList()}></div>
+      <i class="fa fa-close ${css.close}" onclick=${()=>back()}></div>
       <div class=${css.confirmationMain}>
         <div class=${css.confirmationHead}>
-          <div class=${css.confirmationTitle}>Confirm vote?</div>
+          <div class=${css.confirmationTitle} id="title">Confirm vote?</div>
           <div class=${css.submitContainer}>
-            <div class=${css.submitButton}>Submit</div>
-            <div class=${css.submitText}>By clicking submit you confirm that your selection is correct!</div>
+            <div class=${css.submitButton} id="submit" onclick=${()=>sendVote(proposal, fromAddress, BallotContract)}>Submit</div>
+            <div class=${css.submitText} id="text">By clicking submit you confirm that your selection is correct!</div>
           </div>
         </div>
         <div class=${css.confirmationBox}>
@@ -28,13 +27,30 @@ function voteConfirmation (proposal, el) {
     </div>
   `
   return main
-}
 
-function backToProposalsList () {
-  document.querySelector("#explanationBox").style.opacity = 1
-  var parent = main.parentNode
-  parent.replaceChild(listOfProposals, main)
 }
+  // HELPERS
+
+  function sendVote (proposal, fromAddress, BallotContract) {
+    // VOTE FOR ONE PROPOSAL
+    // vote(<here goes proposalAddress>
+    BallotContract.methods.vote(proposal.targetAddress).send({ from: fromAddress}, function (err, txHash) {
+      if (err) return console.error(err)
+      var submit = document.getElementById("submit")
+      var text = document.getElementById("text")
+      var title = document.getElementById("title")
+      title.parentNode.removeChild(title)
+      submit.style.borderColor = 'green'
+      text.innerHTML = `Your vote was succesfully sent! Click the button to get the transaction receipt.`
+      var url = 'https://ropsten.etherscan.io/tx/' + txHash
+      submit.onclick = null
+      submit.innerHTML = `<a href=${url} target="_blank">Etherscan</a>`
+    })
+  }
+
+  function back () {
+    location = location
+  }
 
 var css = csjs`
   .transparentLayer {
@@ -109,5 +125,9 @@ var css = csjs`
   .confirmationDesc {
     font-size: 26px;
     color: #b61114;
+  }
+  .submitButton a {
+    text-decoration: none;
+    color: green;
   }
 `

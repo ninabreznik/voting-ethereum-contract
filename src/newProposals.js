@@ -1,26 +1,34 @@
 var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
-//var getData = require('./src/data.js')
-var voteConfirmation = require('./src/voteConfirmation.js')
+var voteConfirmation = require('./voteConfirmation.js')
 var main
+var BallotContract
+var fromAddress
+var switchViewsButton
 
 module.exports = newProposals
 
-function newProposals(data) {
+
+function newProposals(allProposals, ballot, from, button) {
+  BallotContract = ballot
+  fromAddress = from
+  switchViewsButton = button
+
   main = bel`
     <div class=${css.proposalsMain} id="proposalsMain">
       <div class=${css.title}>Proposals</div>
       <div class=${css.subtitle}>Proposal title/description</div>
       <div class=${css.tip}>Choose only one</div>
-      ${loadProposals(data)}
+      ${loadProposals(allProposals)}
     </div>
   `
   return main
+
 }
 
-function loadProposals (data) {
-  var el = bel`<div>${data.map(proposalContainer)}</div>`
+function loadProposals (allProposals) {
+  var el = bel`<div>${allProposals.map(proposalContainer)}</div>`
   return el
 }
 
@@ -28,23 +36,25 @@ function proposalContainer (proposal) {
   var caret = bel`<i class="fa fa-angle-double-right ${css.proposalIcon}" id="caret"></i>`
   var description = bel`<div class=${css.proposalDesc} id="proposalDesc">${(proposal.description).substring(0, 49) + "..."}</div>`
   return bel`
-    <div class=${css.proposalContainer} onclick=${()=>showHideDetails(proposal, caret, description)}>
-      <div class=${css.proposalBox}>
-        ${caret}
-        <div class=${css.proposalText}>
-          <div class=${css.proposalTitle}>${proposal.title}</div>
-          ${description}
-        </div>
-        <input type="radio" class=${css.radioButton} name="vote" onclick=${(e)=>confirmVote(proposal, e)}>
-      </div>
-    </div>`
+  <div class=${css.proposalContainer} onclick=${()=>showHideDetails(proposal, caret, description)}>
+  <div class=${css.proposalBox}>
+  ${caret}
+  <div class=${css.proposalText}>
+  <div class=${css.proposalTitle}>${proposal.title}</div>
+  ${description}
+  </div>
+  <input type="radio" class=${css.radioButton} name="vote" onclick=${(e)=>confirmVote(proposal, e, BallotContract, fromAddress)}>
+  </div>
+  </div>`
 }
 
-function confirmVote (proposal, e) {
+function confirmVote (proposal, e, BallotContract, fromAddress) {
   e.stopPropagation()
   document.querySelector("#explanationBox").style.opacity = 0
   var parent = main.parentNode
-  var newEl = voteConfirmation(proposal, main)
+  switchViewsButton.innerText = 'Vote for proposal'
+  switchViewsButton.onclick = () => {location = location}
+  var newEl = voteConfirmation(proposal, BallotContract, fromAddress)
   parent.replaceChild(newEl, main)
 }
 
@@ -59,6 +69,7 @@ function showHideDetails (proposal, caret, el) {
     el.innerText = (proposal.description).substring(0, 49) + "..."
   }
 }
+
 
 var css = csjs`
   .proposalsMain {

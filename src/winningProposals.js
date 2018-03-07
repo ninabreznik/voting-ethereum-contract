@@ -4,27 +4,24 @@ var Web3 = require('web3')
 
 module.exports = winningProposals
 
-function winningProposals () {
+function winningProposals (data) {
   return bel`
-    <div class=${css.proposalsMain}>
-      <div class=${css.proposalContainer}>
-        <div class=${css.proposalInner}><div class=${css.proposalTitle}>Round 1 winner</div></div>
-      </div>
-      <div class=${css.proposalContainer}>
-        <div class=${css.proposalInner}><div class=${css.proposalTitle}>Round 2 winner</div></div>
-      </div>
-      <div class=${css.proposalContainer}>
-        <div class=${css.proposalInner}><div class=${css.proposalTitle}>Round 3 winner</div></div>
-      </div>
-      <div class=${css.proposalContainer}>
-        <div class=${css.proposalInner}><div class=${css.proposalTitle}>Round 4 winner</div></div>
-      </div>
+    <div class=${css.oldWinnersGallery}>
+    ${data.map(proposal)}
+    </div>
+  `
+}
+
+function proposal (x, i) {
+  return bel`
+    <div class=${css.proposalContainer}>
+      <div class=${css.proposalInner}><div class=${css.proposalTitle}>Proposal: ${i}</div></div>
     </div>
   `
 }
 
 var css = csjs`
-  .proposalsMain {
+  .oldWinnersGallery {
     display: flex;
     justify-content: space-around;
     align-items: center;
