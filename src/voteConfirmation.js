@@ -40,10 +40,10 @@ function voteConfirmation (proposal, BallotContract, fromAddress) {
       var text = document.getElementById("text")
       var title = document.getElementById("title")
       title.parentNode.removeChild(title)
-      submit.style.borderColor = 'green'
       text.innerHTML = `Your vote was succesfully sent! Click the button to get the transaction receipt.`
-      var url = 'https://ropsten.etherscan.io/tx/' + txHash
+      submit.style.borderColor = 'green'
       submit.onclick = null
+      var url = 'https://ropsten.etherscan.io/tx/' + txHash
       submit.innerHTML = `<a href=${url} target="_blank">Etherscan</a>`
     })
   }
@@ -103,8 +103,8 @@ var css = csjs`
     align-items: center;
     justify-content: center;
     border: 2px solid black;
-    padding: 5%;
-    width: 20%;
+    height: 70px;
+    width: 30%;
   }
   .submitButton:hover {
     background-color: #e2e1dc;
@@ -129,5 +129,13 @@ var css = csjs`
   .submitButton a {
     text-decoration: none;
     color: green;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .submitButton a:hover {
+    text-decoration: none;
   }
 `
