@@ -48894,18 +48894,716 @@ function extend() {
 }
 
 },{}],276:[function(require,module,exports){
+module.exports=[
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "closeRound",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"name": "_subtractedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "decreaseApproval",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "finishMinting",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"name": "_addedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "increaseApproval",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "startRound",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "_addr",
+				"type": "address"
+			}
+		],
+		"name": "newBallot",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "MintFinished",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "_win",
+				"type": "address"
+			}
+		],
+		"name": "winLog",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "_msg",
+				"type": "string"
+			}
+		],
+		"name": "log",
+		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Mint",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "_spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "balance",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "currBallot",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getPreviousWinners",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "mintingFinished",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "prevWinners",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+
+},{}],277:[function(require,module,exports){
+module.exports=[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "desc",
+				"type": "string"
+			},
+			{
+				"name": "title",
+				"type": "string"
+			},
+			{
+				"name": "targetAddr",
+				"type": "address"
+			}
+		],
+		"name": "addProposal",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "_msg",
+				"type": "string"
+			}
+		],
+		"name": "log",
+		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "timeOut",
+		"outputs": [
+			{
+				"name": "timeOver",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "duration",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "proposal",
+				"type": "address"
+			}
+		],
+		"name": "vote",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getProposals",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "proposals",
+		"outputs": [
+			{
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"name": "title",
+				"type": "string"
+			},
+			{
+				"name": "voteCount",
+				"type": "uint256"
+			},
+			{
+				"name": "targetAddress",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "proposalsSender",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "winningProposal",
+		"outputs": [
+			{
+				"name": "currLeader",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+
+},{}],278:[function(require,module,exports){
+var bel = require('bel')
+var csjs = require('csjs-inject')
+
+var winningProposals = require('./winningProposals.js')
+var newProposals = require('./newProposals.js')
+var ExplanationBox = require('./explanationBox.js')
+var applicationForm = require('./applicationForm.js')
+
+var fontAwesome = bel`<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>`
+var font = [bel`<link href="https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" rel="stylesheet">`]
+document.head.appendChild(font[0])
+document.head.appendChild(fontAwesome)
+
+var css = csjs`
+  body {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    background-color: #39456b;
+  }
+  .indexMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .switchView {
+    display: flex;
+    align-self: flex-end;
+    margin: 3% 2% 0 0;
+    color: #b61114;
+    font-size: 20px;
+    padding: 1%;
+    text-transform: uppercase;
+    background-color: #e2e1dc;
+  }
+  .switchView:hover {
+    cursor: pointer;
+    background-color: #fcfbec;
+  }
+`
+
+module.exports = app
+
+function app (opts, data, fromAddress) {
+  var allProposals = data.allProposals
+  var BallotContract = data.BallotContract
+  var prevWinners = data.previousWinners
+
+  var switchViewsButton = bel`<div class=${css.switchView} onclick=${()=>switchView()}>Create new proposal</div>`
+  var newProposalForm = applicationForm(BallotContract, fromAddress)
+  var listOfProposals = newProposals(allProposals, BallotContract, fromAddress, switchViewsButton)
+  var oldWinnersGallery = winningProposals(prevWinners)
+
+  var text = 'Vote for proposal and help us reward the projects that benefit the community!'
+  var explanationBox = ExplanationBox(text)
+
+  return bel`
+    <div class=${css.indexMain}>
+      ${switchViewsButton}
+      ${oldWinnersGallery}
+      ${explanationBox}
+      ${listOfProposals}
+    </div>
+  `
+
+  function switchView () {
+    var allProposalsView = document.querySelector('[class^="proposalsMain"]')
+    var addNewProposalView = document.querySelector('[class^="formMain"]')
+    if (allProposalsView) {
+      switchViewsButton.style.opacity = 1;
+      var newView = newProposalForm
+      var parent = allProposalsView.parentNode
+      parent.replaceChild(newView, allProposalsView )
+      explanationBox.innerText = 'Create new proposal and compete for the crypto funds!'
+      switchViewsButton.innerText = 'Vote for proposal'
+    } else if (addNewProposalView) {
+      switchViewsButton.style.opacity = 1;
+      var newView = listOfProposals
+      var parent = addNewProposalView.parentNode
+      parent.replaceChild(newView, addNewProposalView )
+      explanationBox.innerText = text
+      switchViewsButton.innerText = 'Create new proposal'
+    }
+  }
+
+}
+
+},{"./applicationForm.js":279,"./explanationBox.js":281,"./newProposals.js":283,"./winningProposals.js":285,"bel":17,"csjs-inject":61}],279:[function(require,module,exports){
 var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
 
 module.exports = applicationForm
 
-function applicationForm () {
-  return bel`
-  <div class=${css.formMain}>
-    <div class=${css.formTitle}>Application form</div>
-    <div class=${css.formSubtitle}>Proposal title/description/address</div>
-    <div class=${css.formTip}>Fill out the form and click submit!</div>
+function applicationForm (BallotContract, fromAddress) {
+  var formTitle = bel`<div class=${css.formTitle}>Application form</div>`
+  var formSubtitle = bel`<div class=${css.formSubtitle}>Proposal title/description/address</div>`
+  var formTip = bel`<div class=${css.formTip}>Fill out the form and click submit!</div>`
+  var formContainer = bel`
     <div class=${css.formContainer}>
       <div class=${css.formField}>
         <div class=${css.formFieldText}>Proposal title</div>
@@ -48915,37 +49613,49 @@ function applicationForm () {
         <div class=${css.formFieldText}>Description</div>
         <textarea class=${css.formFieldInput} id="description"></textarea>
       </div>
-      <div class=${css.formField}>
-        <div class=${css.formFieldText}> Ethereum public key</div>
-        <input class=${css.formFieldInput} id="address">
-      </div>
       <div class=${css.submitContainer}>
-        <div class=${css.submitText}>By clicking submit your proposal will be immediatelly published!</div>
-        <div class=${css.submitButton} onclick=${submit}>Submit</div>
+        <div class=${css.submitText} id="text">By clicking submit your proposal will be immediatelly sent!</div>
+        <div class=${css.submitButton} id="submit" onclick=${()=>submit()}>Submit</div>
       </div>
     </div>
+  `
+  var el = bel`
+  <div class=${css.formMain}>
+    ${formTitle}
+    ${formSubtitle}
+    ${formTip}
+    ${formContainer}
   </div>
   `
+
+  function submit () {
+
+    var t = document.getElementById("title")
+    var d = document.getElementById("description")
+    var title = t.value
+    var description = d.value
+    t.style.borderColor = 'black'
+    d.style.borderColor = 'black'
+    if (!title) {t.style.borderColor = '#b61114'}
+    if (!description) {d.style.borderColor = '#b61114'}
+    var address = fromAddress
+    if (title && description && address) {
+      // CREATE NEW PROPOSAL
+      BallotContract.methods.addProposal(description, title, address).send({ from: address}, function (error, txHash) {
+        if (error) return console.error(error)
+        var url = 'https://ropsten.etherscan.io/tx/' + txHash
+        formTitle.style.color = 'green'
+        formTitle.innerText = 'Proposal sent'
+        formSubtitle.innerHTML = `Click <a href=${url} target="_blank">here</a> to get your transaction receipt.`
+        formTip.innerText = ''
+        formContainer.parentNode.removeChild(formContainer)
+      })
+    }
+  }
+
+  return el
 }
 
-function submit () {
-  var t = document.getElementById("title")
-  var d = document.getElementById("description")
-  var a = document.getElementById("address")
-  t.style.borderColor = 'black'
-  d.style.borderColor = 'black'
-  a.style.borderColor = 'black'
-  var title = t.value
-  var description = d.value
-  var address = a.value
-  if (!title) {t.style.borderColor = '#b61114'}
-  if (!description) {d.style.borderColor = '#b61114'}
-  if (!address) {a.style.borderColor = '#b61114'}
-  if (title && description && address) {
-    console.log('sending data')
-    console.log(title, description, address)
-  }
-}
 
 var css = csjs`
   .formMain {
@@ -49028,81 +49738,105 @@ var css = csjs`
       opacity: 1;
     }
   }
+  a {
+    text-decoration: none;
+    color: green;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
 `
 
-},{"bel":17,"csjs-inject":61,"web3":264}],277:[function(require,module,exports){
-module.exports = loadData
+},{"bel":17,"csjs-inject":61,"web3":264}],280:[function(require,module,exports){
+var AwardTokenABI = require('./AwardTokenABI.json')
+var BallotABI = require('./BallotABI.json')
 
-function loadData () {
-  var obj = [
-    {
-      id: 1,
-      title: 'Proposal 1',
-      description: 'Lorem ipsum dolor sit amet, mei ei accusam menandri postulant, epicurei electram mel cu. In pri voluptatum posidonium conclusionemque, et legere apeirian mea. Illum omnes suscipiantur cu his, ne partiendo reprimique sit. Error veritus ut nec. Ea vidit nemore salutandi duo, ex pri viris iisque legimus, ut eum graeci denique.',
-      author: '',
-      public_key: ''
-    },
-    {
-      id: 2,
-      title: 'Proposal 2',
-      description: 'Suas possim sea ea, in dicat altera pri, quas tritani sed ne. Tempor antiopam facilisis per ne, consequat accommodare definitionem te sit, no has mentitum suavitate interesset. Soleat aeterno sit in, no per hendrerit tincidunt scribentur, mel ut dissentias voluptatibus. Te laoreet repudiandae vis. Pri ut illud audire, quas omnis elaboraret at his. Vide iudicabit ut vix, est elitr pertinax ad. Usu cu posse fugit soleat, ius nostro tincidunt ex, sonet nusquam mnesarchum.',
-      author: '',
-      public_key: ''
-    },
-    {
-      id: 3,
-      title: 'Proposal 3',
-      description: 'Ei labores eligendi usu, rebum efficiantur sit et. Vis cu amet volutpat laboramus. Perfecto evertitur no quo, eum ex facilis salutandi. Quo modus oratio convenire te, id qui docendi vivendum postulant. Mundi possit elaboraret ex eam, ex eros eius mei. Reque apeirian eu qui, te mei regione concludaturque, pro et equidem gubergren.',
-      author: '',
-      public_key: ''
-    },
-    {
-      id: 4,
-      title: 'Proposal 4',
-      description: 'Ei decore epicuri insolens vel, saepe viderer insolens pri id. Quo omnesque pertinacia an, quo soluta referrentur in, nam ad bonorum deleniti electram. Eu pri alia labitur iuvaret, in inani quodsi his. Nec no essent civibus omittantur, mea eu dicat numquam, tota dicant perpetua ei eos.',
-      author: '',
-      public_key: ''
-    },
-    {
-      id: 5,
-      title: 'Proposal 5',
-      description: 'At odio movet libris vel, illum commodo splendide ex nec. Ex eum summo labore nemore, cibo movet feugiat in mea, cum posidonium liberavisse an. Ullum vituperata ex sea. Vis natum bonorum definitionem no.',
-      author: '',
-      public_key: ''
-    },
-    {
-      id: 6,
-      title: 'Proposal 6',
-      description: 'Lorem ipsum dolor sit amet, vis ad porro solet aliquando, ad hendrerit voluptatum philosophia nam. Sit viris noster fastidii eu, tamquam minimum in his, lucilius adipisci antiopam qui ad. Ei mollis fabellas abhorreant eos, pri id putent postulant suscipiantur. Ea pro inani dolor deseruisse, erant exerci nonumes usu et. Ea blandit mandamus sit, est ad adhuc expetenda referrentur. Sea duis sapientem torquatos ea.',
-      author: '',
-      public_key: ''
-    },
-    {
-      id: 7,
-      title: 'Proposal 7',
-      description: 'Lorem ipsum dolor sit amet, mei ei accusam menandri postulant, epicurei electram mel cu. In pri voluptatum posidonium conclusionemque, et legere apeirian mea. Illum omnes suscipiantur cu his, ne partiendo reprimique sit. Error veritus ut nec. Ea vidit nemore salutandi duo, ex pri viris iisque legimus, ut eum graeci denique.',
-      author: '',
-      public_key: ''
-    },
-    {
-      id: 8,
-      title: 'Proposal 8',
-      description: 'At odio movet libris vel, illum commodo splendide ex nec. Ex eum summo labore nemore, cibo movet feugiat in mea, cum posidonium liberavisse an. Ullum vituperata ex sea. Vis natum bonorum definitionem no.',
-      author: '',
-      public_key: ''
-    },
-    {
-      id: 9,
-      title: 'Proposal 9',
-      description: 'Lorem ipsum dolor sit amet, mei ei accusam menandri postulant, epicurei electram mel cu. In pri voluptatum posidonium conclusionemque, et legere apeirian mea. Illum omnes suscipiantur cu his, ne partiendo reprimique sit. Error veritus ut nec. Ea vidit nemore salutandi duo, ex pri viris iisque legimus, ut eum graeci denique.',
-      author: '',
-      public_key: ''
+module.exports = getData
+
+function getData (opts, done) {
+  var web3 = opts.web3
+  var fromAddress = opts.fromAddress
+  /* ----------------------------
+  AwardToken.sol CONTRACT
+  ------------------------------ */
+  // ADDRESS (in Remix:  create contract/copy instance address)
+  var AwardTokenAddress = '0xd11858fbbded508f6edc976dae08bd201136fe2b'
+  var AwardTokenContract = new web3.eth.Contract(AwardTokenABI, AwardTokenAddress, {})
+
+
+// ASYNC CALLS TO WEB3
+  var result = {}
+  var status = {}
+
+  function finish () {
+
+    if (status.callCurrBallot && status.callGetPreviousWinner) {
+      done(null, result, fromAddress)
+
     }
-  ]
-  return obj
+  }
+
+  callCurrBallot()
+  callGetPreviousWinner()
+
+  function callCurrBallot () {
+    // Calling currBallot method will return a Ballot address that was created when we monted tokens in Award Token contract
+    AwardTokenContract.methods.currBallot().call({}, callback)
+
+    /* ----------------------------
+    Ballot.sol CONTRACT
+    ------------------------------ */
+    // Having a Current Ballot address, we can now connect to existing BallotContract and get access to Ballot.sol functions
+    var BallotContract
+    function callback (err, BallotAddress) {
+      BallotContract = new web3.eth.Contract(BallotABI, BallotAddress, {})
+      getProposals(null)
+    }
+
+    var allProposals = []
+    counter = 0
+
+    function getProposals (err) {
+      BallotContract.methods.getProposals().call({}, function (error, arrayOfAddresses) { // get addresses of all proposal creators
+        if (error) return done(error)
+        if (arrayOfAddresses.length) {
+          arrayOfAddresses.forEach(function (address) {
+            BallotContract.methods.proposals(address).call({}, function (error, proposal) {  // get each proposal based on the creator's address
+            if (error) return done(error)
+            allProposals.push(proposal)
+            counter += 1
+            if (counter === arrayOfAddresses.length) {
+              status.callCurrBallot = true;
+              result.BallotContract = BallotContract
+              result.allProposals = allProposals
+              finish()
+            }
+          })
+        })
+        } else {
+          status.callCurrBallot = true;
+          result.BallotContract = BallotContract
+          result.allProposals = []
+          finish()
+        }
+      })
+    }
+  }
+
+  function callGetPreviousWinner () {
+    AwardTokenContract.methods.getPreviousWinners().call({}, allWinners)
+
+    function allWinners (err, list) {
+      if (err) console.error(err)
+      status.callGetPreviousWinner = true;
+      result.previousWinners = list
+      finish()
+    }
+  }
+
 }
 
-},{}],278:[function(require,module,exports){
+},{"./AwardTokenABI.json":276,"./BallotABI.json":277}],281:[function(require,module,exports){
 var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
@@ -49137,129 +49871,69 @@ var css = csjs`
   }
 `
 
-},{"bel":17,"csjs-inject":61,"web3":264}],279:[function(require,module,exports){
-var bel = require('bel')
-var csjs = require('csjs-inject')
-var Web3 = require('web3')
-
-var winningProposals = require('./winningProposals.js')
-var newProposals = require('./newProposals.js')
-var explanationBox = require('./explanationBox.js')
-var applicationForm = require('./applicationForm.js')
-
-var fontAwesome = bel`<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>`
-var font = [bel`<link href="https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" rel="stylesheet">`]
-document.head.appendChild(font[0])
-document.head.appendChild(fontAwesome)
-
-var css = csjs`
-  body {
-    font-family: 'Yanone Kaffeesatz', sans-serif;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    background-color: #39456b;
-  }
-  .indexMain {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  .switchView {
-    display: flex;
-    align-self: flex-end;
-    margin: 3% 2% 0 0;
-    color: #b61114;
-    font-size: 20px;
-    padding: 1%;
-    text-transform: uppercase;
-    background-color: #e2e1dc;
-  }
-  .switchView:hover {
-    cursor: pointer;
-    background-color: #fcfbec;
-  }
-`
-
-var text = 'Vote for proposal and help us reward the projects that benefit the community!'
-var explanationBox = explanationBox(text)
-var switchViewButton = switchView()
-var centralEl = newProposals()
-
-function landingPage() {
-
-  return bel`
-    <div class=${css.indexMain}>
-      ${switchViewButton}
-      ${winningProposals()}
-      ${explanationBox}
-      ${centralEl}
-    </div>
-  `
-
-}
-
-function switchView () {
-  return bel`<div class=${css.switchView} onclick=${()=>addNewProposal()}>Create new proposal</div>`
-}
-
-function addNewProposal () {
-  explanationBox.innerText = 'Create new proposal and compete for the crypto funds!'
-  switchViewButton.innerText = 'Vote for proposal'
-  newCentralEl = applicationForm()
-  var parent = centralEl.parentNode
-  parent.removeChild(centralEl)
-  parent.appendChild(newCentralEl)
-  switchViewButton.onclick = null
-  switchViewButton.onclick = ()=>voteView(newCentralEl)
-
-}
-
-function voteView (newCentralEl) {
-  explanationBox.innerText = text
-  switchViewButton.innerText = 'Create new proposal'
-  var parent = newCentralEl.parentNode
-  parent.removeChild(newCentralEl)
-  parent.appendChild(centralEl)
-  switchViewButton.onclick = null
-  switchViewButton.onclick = ()=>addNewProposal()
-}
-
-/******************************
-    LAUNCH THE PAGE
-*******************************/
-var el = landingPage()
-document.body.appendChild(el)
-
-},{"./applicationForm.js":276,"./explanationBox.js":278,"./newProposals.js":280,"./winningProposals.js":282,"bel":17,"csjs-inject":61,"web3":264}],280:[function(require,module,exports){
-var bel = require('bel')
-var csjs = require('csjs-inject')
-var Web3 = require('web3')
+},{"bel":17,"csjs-inject":61,"web3":264}],282:[function(require,module,exports){
 var getData = require('./data.js')
+var app = require('./app.js')
+var Web3 = require('web3')
+/* ----------------------------
+      WEB3 CONFIG
+------------------------------ */
+
+if (typeof web3 !== 'undefined') {
+  web3 = new Web3(web3.currentProvider);
+} else {
+  // set the provider you want from Web3.providers
+  web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+}
+
+var fromAddress
+web3.eth.getAccounts((err,result) => {
+
+  if (err) return console.error(err)
+  fromAddress = result[0]
+  var opts = { web3, fromAddress }
+
+  getData(opts, done)
+
+  function done (err, data, fromAddress) {
+    if (err) return console.error(err)
+    var el = app(opts, data, fromAddress)
+    document.body.appendChild(el)
+  }
+})
+
+},{"./app.js":278,"./data.js":280,"web3":264}],283:[function(require,module,exports){
+var bel = require('bel')
+var csjs = require('csjs-inject')
+var Web3 = require('web3')
 var voteConfirmation = require('./voteConfirmation.js')
 var main
+var BallotContract
+var fromAddress
+var switchViewsButton
 
 module.exports = newProposals
 
-function newProposals () {
+
+function newProposals(allProposals, ballot, from, button) {
+  BallotContract = ballot
+  fromAddress = from
+  switchViewsButton = button
+
   main = bel`
     <div class=${css.proposalsMain} id="proposalsMain">
       <div class=${css.title}>Proposals</div>
       <div class=${css.subtitle}>Proposal title/description</div>
       <div class=${css.tip}>Choose only one</div>
-      ${loadProposals()}
+      ${loadProposals(allProposals)}
     </div>
   `
   return main
+
 }
 
-function loadProposals () {
-  var data = getData()
-  var el = bel`<div></div>`
-  data.map(proposal => {
-    el.appendChild(proposalContainer(proposal))
-  })
+function loadProposals (allProposals) {
+  var el = bel`<div>${allProposals.map(proposalContainer)}</div>`
   return el
 }
 
@@ -49267,28 +49941,30 @@ function proposalContainer (proposal) {
   var caret = bel`<i class="fa fa-angle-double-right ${css.proposalIcon}" id="caret"></i>`
   var description = bel`<div class=${css.proposalDesc} id="proposalDesc">${(proposal.description).substring(0, 49) + "..."}</div>`
   return bel`
-    <div class=${css.proposalContainer} onclick=${()=>showHideDetails(proposal, caret, description)}>
-      <div class=${css.proposalBox}>
-        ${caret}
-        <div class=${css.proposalText}>
-          <div class=${css.proposalTitle}>${proposal.title}</div>
-          ${description}
-        </div>
-        <input type="radio" class=${css.radioButton} name="vote" onclick=${(e)=>confirmVote(proposal, e)}>
-      </div>
-    </div>`
+  <div class=${css.proposalContainer} onclick=${()=>showHideDetails(proposal, caret, description)}>
+  <div class=${css.proposalBox}>
+  ${caret}
+  <div class=${css.proposalText}>
+  <div class=${css.proposalTitle}>${proposal.title}</div>
+  ${description}
+  </div>
+  <input type="radio" class=${css.radioButton} name="vote" onclick=${(e)=>confirmVote(proposal, e, BallotContract, fromAddress)}>
+  </div>
+  </div>`
 }
 
-function confirmVote (proposal, e) {
+function confirmVote (proposal, e, BallotContract, fromAddress) {
   e.stopPropagation()
   document.querySelector("#explanationBox").style.opacity = 0
   var parent = main.parentNode
-  var newEl = voteConfirmation(proposal, main)
+  switchViewsButton.innerText = 'Vote for proposal'
+  switchViewsButton.onclick = () => {location = location}
+  var newEl = voteConfirmation(proposal, BallotContract, fromAddress)
   parent.replaceChild(newEl, main)
 }
 
 function showHideDetails (proposal, caret, el) {
-  if (el.innerText.length < 54) {
+  if (caret.classList.contains("fa-angle-double-right")) {
     caret.classList.remove("fa-angle-double-right")
     caret.classList.add("fa-angle-double-down")
     el.innerText = proposal.description
@@ -49298,6 +49974,7 @@ function showHideDetails (proposal, caret, el) {
     el.innerText = (proposal.description).substring(0, 49) + "..."
   }
 }
+
 
 var css = csjs`
   .proposalsMain {
@@ -49373,27 +50050,26 @@ var css = csjs`
   }
 `
 
-},{"./data.js":277,"./voteConfirmation.js":281,"bel":17,"csjs-inject":61,"web3":264}],281:[function(require,module,exports){
+},{"./voteConfirmation.js":284,"bel":17,"csjs-inject":61,"web3":264}],284:[function(require,module,exports){
 var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
 
 var main
-var listOfProposals
 
 module.exports = voteConfirmation
 
-function voteConfirmation (proposal, el) {
-  listOfProposals = el
+function voteConfirmation (proposal, BallotContract, fromAddress) {
+
   main = bel`
     <div class=${css.transparentLayer} id="transparentLayer">
-      <i class="fa fa-close ${css.close}" onclick=${()=>backToProposalsList()}></div>
+      <i class="fa fa-close ${css.close}" onclick=${()=>back()}></div>
       <div class=${css.confirmationMain}>
         <div class=${css.confirmationHead}>
-          <div class=${css.confirmationTitle}>Confirm vote?</div>
+          <div class=${css.confirmationTitle} id="title">Confirm vote?</div>
           <div class=${css.submitContainer}>
-            <div class=${css.submitButton}>Submit</div>
-            <div class=${css.submitText}>By clicking submit you confirm that your selection is correct!</div>
+            <div class=${css.submitButton} id="submit" onclick=${()=>sendVote(proposal, fromAddress, BallotContract)}>Submit</div>
+            <div class=${css.submitText} id="text">By clicking submit you confirm that your selection is correct!</div>
           </div>
         </div>
         <div class=${css.confirmationBox}>
@@ -49404,13 +50080,30 @@ function voteConfirmation (proposal, el) {
     </div>
   `
   return main
-}
 
-function backToProposalsList () {
-  document.querySelector("#explanationBox").style.opacity = 1
-  var parent = main.parentNode
-  parent.replaceChild(listOfProposals, main)
 }
+  // HELPERS
+
+  function sendVote (proposal, fromAddress, BallotContract) {
+    // VOTE FOR ONE PROPOSAL
+    // vote(<here goes proposalAddress>
+    BallotContract.methods.vote(proposal.targetAddress).send({ from: fromAddress}, function (err, txHash) {
+      if (err) return console.error(err)
+      var submit = document.getElementById("submit")
+      var text = document.getElementById("text")
+      var title = document.getElementById("title")
+      title.parentNode.removeChild(title)
+      submit.style.borderColor = 'green'
+      text.innerHTML = `Your vote was succesfully sent! Click the button to get the transaction receipt.`
+      var url = 'https://ropsten.etherscan.io/tx/' + txHash
+      submit.onclick = null
+      submit.innerHTML = `<a href=${url} target="_blank">Etherscan</a>`
+    })
+  }
+
+  function back () {
+    location = location
+  }
 
 var css = csjs`
   .transparentLayer {
@@ -49486,36 +50179,37 @@ var css = csjs`
     font-size: 26px;
     color: #b61114;
   }
+  .submitButton a {
+    text-decoration: none;
+    color: green;
+  }
 `
 
-},{"bel":17,"csjs-inject":61,"web3":264}],282:[function(require,module,exports){
+},{"bel":17,"csjs-inject":61,"web3":264}],285:[function(require,module,exports){
 var bel = require('bel')
 var csjs = require('csjs-inject')
 var Web3 = require('web3')
 
 module.exports = winningProposals
 
-function winningProposals () {
+function winningProposals (data) {
   return bel`
-    <div class=${css.proposalsMain}>
-      <div class=${css.proposalContainer}>
-        <div class=${css.proposalInner}><div class=${css.proposalTitle}>Round 1 winner</div></div>
-      </div>
-      <div class=${css.proposalContainer}>
-        <div class=${css.proposalInner}><div class=${css.proposalTitle}>Round 2 winner</div></div>
-      </div>
-      <div class=${css.proposalContainer}>
-        <div class=${css.proposalInner}><div class=${css.proposalTitle}>Round 3 winner</div></div>
-      </div>
-      <div class=${css.proposalContainer}>
-        <div class=${css.proposalInner}><div class=${css.proposalTitle}>Round 4 winner</div></div>
-      </div>
+    <div class=${css.oldWinnersGallery}>
+    ${data.map(proposal)}
+    </div>
+  `
+}
+
+function proposal (x, i) {
+  return bel`
+    <div class=${css.proposalContainer}>
+      <div class=${css.proposalInner}><div class=${css.proposalTitle}>Proposal: ${i}</div></div>
     </div>
   `
 }
 
 var css = csjs`
-  .proposalsMain {
+  .oldWinnersGallery {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -49550,4 +50244,4 @@ var css = csjs`
   }
 `
 
-},{"bel":17,"csjs-inject":61,"web3":264}]},{},[279]);
+},{"bel":17,"csjs-inject":61,"web3":264}]},{},[282]);

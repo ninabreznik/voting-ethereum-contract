@@ -53,8 +53,7 @@ function applicationForm (BallotContract, fromAddress) {
         formTitle.innerText = 'Proposal sent'
         formSubtitle.innerHTML = `Click <a href=${url} target="_blank">here</a> to get your transaction receipt.`
         formTip.innerText = ''
-        t.value = null
-        d.value = null
+        formContainer.parentNode.removeChild(formContainer)
       })
     }
   }
@@ -149,6 +148,6 @@ var css = csjs`
     color: green;
   }
   a:hover {
-    text-decoration: underline; 
+    text-decoration: underline;
   }
 `
