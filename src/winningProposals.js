@@ -15,7 +15,7 @@ function winningProposals (data) {
 function proposal (x, i) {
   return bel`
     <div class=${css.proposalContainer}>
-      <div class=${css.proposalInner}><div class=${css.proposalTitle}>Proposal: ${i}</div></div>
+      <div class=${css.proposalInner}><div class=${css.proposalTitle}>Proposal: ${x}</div></div>
     </div>
   `
 }
@@ -33,7 +33,7 @@ var css = csjs`
     justify-content: space-around;
     align-items: center;
     height: 170px;
-    width: 22%;
+    width: 64%;
     background-color: #e2e1dc;
   }
   .proposalContainer:hover {

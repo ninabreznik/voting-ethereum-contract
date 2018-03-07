@@ -47,8 +47,28 @@ function app (opts, data, fromAddress) {
   var allProposals = data.allProposals
   var BallotContract = data.BallotContract
   var prevWinners = data.previousWinners
+  
 
-  var switchViewsButton = bel`<div class=${css.switchView} onclick=${()=>switchView()}>Create new proposal</div>`
+  function setupBut(cb) {
+    var switchViewsButton
+    if (!BallotContract) {
+      switchViewsButton = bel`<div class=${css.switchView}>No Voting/Submitting</div>`
+    } else {
+      BallotContract.methods.timeOut().call({}, function (error, tOver) {
+        if (tOver) {
+          switchViewsButton = bel`<div class=${css.switchView}>Voting/Submitting Over</div>`
+        } else {
+            switchViewsButton = bel`<div class=${css.switchView} onclick=${()=>switchView()}>Create new proposal</div>`
+        }
+      })
+    }
+    cb(switchViewsButton)
+  }
+  setupBut((switchViewsButton)=> {
+
+  })
+  
+
   var newProposalForm = applicationForm(BallotContract, fromAddress)
   var listOfProposals = newProposals(allProposals, BallotContract, fromAddress, switchViewsButton)
   var oldWinnersGallery = winningProposals(prevWinners)

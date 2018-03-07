@@ -10,7 +10,7 @@ function getData (opts, done) {
   AwardToken.sol CONTRACT
   ------------------------------ */
   // ADDRESS (in Remix:  create contract/copy instance address)
-  var AwardTokenAddress = '0xd11858fbbded508f6edc976dae08bd201136fe2b'
+  var AwardTokenAddress = '0x57232e40b2d53ca475b56dee95c121fe242c73f7'
   var AwardTokenContract = new web3.eth.Contract(AwardTokenABI, AwardTokenAddress, {})
 
 
@@ -39,8 +39,13 @@ function getData (opts, done) {
     // Having a Current Ballot address, we can now connect to existing BallotContract and get access to Ballot.sol functions
     var BallotContract
     function callback (err, BallotAddress) {
-      BallotContract = new web3.eth.Contract(BallotABI, BallotAddress, {})
-      getProposals(null)
+      console.log("ballot addr: " + BallotAddress)
+      if (BallotAddress === "0x0000000000000000000000000000000000000000") {
+        BallotContract = null
+      } else {
+        BallotContract = new web3.eth.Contract(BallotABI, BallotAddress, {})
+        getProposals(null)
+      }
     }
 
     var allProposals = []
@@ -80,6 +85,7 @@ function getData (opts, done) {
       if (err) console.error(err)
       status.callGetPreviousWinner = true;
       result.previousWinners = list
+      console.log(result.previousWinners)
       finish()
     }
   }

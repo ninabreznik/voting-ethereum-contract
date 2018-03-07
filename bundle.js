@@ -49384,7 +49384,7 @@ module.exports=[
 		"type": "event"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [],
 		"name": "timeOut",
 		"outputs": [
@@ -49552,8 +49552,25 @@ function app (opts, data, fromAddress) {
   var allProposals = data.allProposals
   var BallotContract = data.BallotContract
   var prevWinners = data.previousWinners
+  var switchViewsButton
 
-  var switchViewsButton = bel`<div class=${css.switchView} onclick=${()=>switchView()}>Create new proposal</div>`
+  function setupBut() {
+    if (!BallotContract) {
+      switchViewsButton = bel`<div class=${css.switchView}>No Voting/Submitting</div>`
+    } else {
+      console.log('contract')
+      BallotContract.methods.timeOut().call({}, function (error, tOver) {
+        if (tOver) {
+          switchViewsButton = bel`<div class=${css.switchView}>Voting/Submitting Over</div>`
+        } else {
+            switchViewsButton = bel`<div class=${css.switchView} onclick=${()=>switchView()}>Create new proposal</div>`
+        }
+      })
+    }
+  }
+
+  setupBut()
+
   var newProposalForm = applicationForm(BallotContract, fromAddress)
   var listOfProposals = newProposals(allProposals, BallotContract, fromAddress, switchViewsButton)
   var oldWinnersGallery = winningProposals(prevWinners)
@@ -49760,7 +49777,7 @@ function getData (opts, done) {
   AwardToken.sol CONTRACT
   ------------------------------ */
   // ADDRESS (in Remix:  create contract/copy instance address)
-  var AwardTokenAddress = '0xd11858fbbded508f6edc976dae08bd201136fe2b'
+  var AwardTokenAddress = '0x57232e40b2d53ca475b56dee95c121fe242c73f7'
   var AwardTokenContract = new web3.eth.Contract(AwardTokenABI, AwardTokenAddress, {})
 
 
@@ -49789,8 +49806,13 @@ function getData (opts, done) {
     // Having a Current Ballot address, we can now connect to existing BallotContract and get access to Ballot.sol functions
     var BallotContract
     function callback (err, BallotAddress) {
-      BallotContract = new web3.eth.Contract(BallotABI, BallotAddress, {})
-      getProposals(null)
+      console.log("ballot addr: " + BallotAddress)
+      if (BallotAddress === "0x0000000000000000000000000000000000000000") {
+        BallotContract = null
+      } else {
+        BallotContract = new web3.eth.Contract(BallotABI, BallotAddress, {})
+        getProposals(null)
+      }
     }
 
     var allProposals = []
@@ -49830,6 +49852,7 @@ function getData (opts, done) {
       if (err) console.error(err)
       status.callGetPreviousWinner = true;
       result.previousWinners = list
+      console.log(result.previousWinners)
       finish()
     }
   }
@@ -49947,6 +49970,7 @@ function proposalContainer (proposal) {
   <div class=${css.proposalText}>
   <div class=${css.proposalTitle}>${proposal.title}</div>
   ${description}
+  ${proposal.voteCount} vote(s)
   </div>
   <input type="radio" class=${css.radioButton} name="vote" onclick=${(e)=>confirmVote(proposal, e, BallotContract, fromAddress)}>
   </div>
@@ -50203,7 +50227,7 @@ function winningProposals (data) {
 function proposal (x, i) {
   return bel`
     <div class=${css.proposalContainer}>
-      <div class=${css.proposalInner}><div class=${css.proposalTitle}>Proposal: ${i}</div></div>
+      <div class=${css.proposalInner}><div class=${css.proposalTitle}>Proposal: ${x}</div></div>
     </div>
   `
 }
@@ -50221,7 +50245,7 @@ var css = csjs`
     justify-content: space-around;
     align-items: center;
     height: 170px;
-    width: 22%;
+    width: 64%;
     background-color: #e2e1dc;
   }
   .proposalContainer:hover {

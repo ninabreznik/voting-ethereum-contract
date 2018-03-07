@@ -42,6 +42,7 @@ function proposalContainer (proposal) {
   <div class=${css.proposalText}>
   <div class=${css.proposalTitle}>${proposal.title}</div>
   ${description}
+  ${proposal.voteCount} vote(s)
   </div>
   <input type="radio" class=${css.radioButton} name="vote" onclick=${(e)=>confirmVote(proposal, e, BallotContract, fromAddress)}>
   </div>

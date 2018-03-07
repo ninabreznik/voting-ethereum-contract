@@ -34,7 +34,7 @@
 		"type": "event"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [],
 		"name": "timeOut",
 		"outputs": [
