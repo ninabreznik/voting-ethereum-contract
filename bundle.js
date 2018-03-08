@@ -49643,7 +49643,7 @@ function applicationForm (BallotContract, fromAddress) {
       // CREATE NEW PROPOSAL
       BallotContract.methods.addProposal(description, title, address).send({ from: address}, function (error, txHash) {
         if (error) return console.error(error)
-        var url = 'https://ropsten.etherscan.io/tx/' + txHash
+        var url = 'https://rinkeby.etherscan.io/tx/' + txHash
         formTitle.style.color = 'green'
         formTitle.innerText = 'Proposal sent'
         formSubtitle.innerHTML = `Click <a href=${url} target="_blank">here</a> to get your transaction receipt.`
@@ -49760,7 +49760,7 @@ function getData (opts, done) {
   AwardToken.sol CONTRACT
   ------------------------------ */
   // ADDRESS (in Remix:  create contract/copy instance address)
-  var AwardTokenAddress = '0xd11858fbbded508f6edc976dae08bd201136fe2b'
+  var AwardTokenAddress = '0xbae7b67dd802298a8af1e7a94e75f5a591c700ad'
   var AwardTokenContract = new web3.eth.Contract(AwardTokenABI, AwardTokenAddress, {})
 
 
@@ -49789,8 +49789,14 @@ function getData (opts, done) {
     // Having a Current Ballot address, we can now connect to existing BallotContract and get access to Ballot.sol functions
     var BallotContract
     function callback (err, BallotAddress) {
-      BallotContract = new web3.eth.Contract(BallotABI, BallotAddress, {})
-      getProposals(null)
+      console.log('BallotAddress')
+      console.log(BallotAddress)
+      if (BallotAddress === "0x0000000000000000000000000000000000000000") {
+        BallotContract = null
+      } else {
+        BallotContract = new web3.eth.Contract(BallotABI, BallotAddress, {})
+        getProposals(null)
+      }
     }
 
     var allProposals = []
@@ -49892,7 +49898,7 @@ web3.eth.getAccounts((err,result) => {
   if (err) return console.error(err)
   fromAddress = result[0]
   var opts = { web3, fromAddress }
-
+  console.log('before')
   getData(opts, done)
 
   function done (err, data, fromAddress) {
@@ -49947,6 +49953,7 @@ function proposalContainer (proposal) {
   <div class=${css.proposalText}>
   <div class=${css.proposalTitle}>${proposal.title}</div>
   ${description}
+  <div class=${css.voteCount}>${proposal.voteCount} vote(s)</div>
   </div>
   <input type="radio" class=${css.radioButton} name="vote" onclick=${(e)=>confirmVote(proposal, e, BallotContract, fromAddress)}>
   </div>
@@ -50048,6 +50055,9 @@ var css = csjs`
       opacity: 1;
     }
   }
+  .voteCount {
+
+  }
 `
 
 },{"./voteConfirmation.js":284,"bel":17,"csjs-inject":61,"web3":264}],284:[function(require,module,exports){
@@ -50096,7 +50106,7 @@ function voteConfirmation (proposal, BallotContract, fromAddress) {
       text.innerHTML = `Your vote was succesfully sent! Click the button to get the transaction receipt.`
       submit.style.borderColor = 'green'
       submit.onclick = null
-      var url = 'https://ropsten.etherscan.io/tx/' + txHash
+      var url = 'https://rinkeby.etherscan.io/tx/' + txHash
       submit.innerHTML = `<a href=${url} target="_blank">Etherscan</a>`
     })
   }

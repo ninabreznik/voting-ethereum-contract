@@ -48,7 +48,7 @@ function applicationForm (BallotContract, fromAddress) {
       // CREATE NEW PROPOSAL
       BallotContract.methods.addProposal(description, title, address).send({ from: address}, function (error, txHash) {
         if (error) return console.error(error)
-        var url = 'https://ropsten.etherscan.io/tx/' + txHash
+        var url = 'https://rinkeby.etherscan.io/tx/' + txHash
         formTitle.style.color = 'green'
         formTitle.innerText = 'Proposal sent'
         formSubtitle.innerHTML = `Click <a href=${url} target="_blank">here</a> to get your transaction receipt.`

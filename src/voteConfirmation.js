@@ -43,7 +43,7 @@ function voteConfirmation (proposal, BallotContract, fromAddress) {
       text.innerHTML = `Your vote was succesfully sent! Click the button to get the transaction receipt.`
       submit.style.borderColor = 'green'
       submit.onclick = null
-      var url = 'https://ropsten.etherscan.io/tx/' + txHash
+      var url = 'https://rinkeby.etherscan.io/tx/' + txHash
       submit.innerHTML = `<a href=${url} target="_blank">Etherscan</a>`
     })
   }
