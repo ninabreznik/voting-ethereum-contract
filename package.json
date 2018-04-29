@@ -1,11 +1,10 @@
 {
     "name": "workshop-paris",
     "version": "1.0.0",
-    "description": "",
+    "description": "remix workshop",
     "main": "index.js",
     "scripts": {
-        "start": "ecstatic . -p 5000",
-        "build": "browserify src/index.js > bundle.js"
+        "start": "budo src/index.js:bundle.js --dir ./ --live --open"
     },
     "author": "",
     "license": "ISC",
@@ -15,7 +14,6 @@
         "web3": "^1.0.0-beta.34"
     },
     "devDependencies": {
-        "browserify": "^16.2.0",
-        "ecstatic": "^3.2.0"
+        "budo": "^11.2.0"
     }
 }
