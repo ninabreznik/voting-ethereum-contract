@@ -18,7 +18,6 @@ web3.eth.getAccounts((err,result) => {
   if (err) return console.error(err)
   fromAddress = result[0]
   var opts = { web3, fromAddress }
-  console.log('before')
   getData(opts, done)
 
   function done (err, data, fromAddress) {

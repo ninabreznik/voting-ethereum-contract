@@ -44,6 +44,7 @@ var css = csjs`
 module.exports = app
 
 function app (opts, data, fromAddress) {
+  debugger
   var allProposals = data.allProposals
   var BallotContract = data.BallotContract
   var prevWinners = data.previousWinners

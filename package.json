@@ -10,10 +10,12 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "bel": "^5.1.7",
-        "browserify": "^16.1.0",
+        "bel": "^6.0.0",
         "csjs-inject": "^1.0.1",
-        "ecstatic": "^3.2.0",
-        "web3": "^1.0.0-beta.30"
+        "web3": "^1.0.0-beta.34"
+    },
+    "devDependencies": {
+        "browserify": "^16.2.0",
+        "ecstatic": "^3.2.0"
     }
 }
