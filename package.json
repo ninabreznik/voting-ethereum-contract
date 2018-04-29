@@ -4,7 +4,8 @@
     "description": "remix workshop",
     "main": "index.js",
     "scripts": {
-        "start": "budo src/index.js:bundle.js --dir ./ --live --open"
+        "start": "budo src/index.js:bundle.js --dir ./ --live --open",
+        "build": "browserify src/index.js > bundle.js"
     },
     "author": "",
     "license": "ISC",

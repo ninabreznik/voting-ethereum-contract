@@ -6,15 +6,15 @@ First open [Remix](http://remix-alpha.ethereum.org/#optimize=false&version=soljs
 Then follow [this link](https://gist.github.com/anonymous/1483e5599012c3783def91ead259ece8) to get instructions and resources you need to connect this UI with Solidity contracts you found in the previous link.
 
 
-## Build
-
-```sh
-npm run build
-```
 
 ## Run
 ```sh
 npm start
+```
+## Build
+
+```sh
+npm run build
 ```
 
 ## Presentations
