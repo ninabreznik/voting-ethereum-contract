@@ -17,6 +17,8 @@ npm run build
 npm start
 ```
 
-
-
-
+## Presentations
+* http://slides.com/ryestew/deck#/
+* http://slides.com/serapath/1-gas#/
+* http://slides.com/ninabreznik/deck-11#/
+* https://ninabreznik.github.io/voting-ethereum-contract/
