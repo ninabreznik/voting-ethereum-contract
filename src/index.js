@@ -119,9 +119,7 @@ function done (err, result) {
   const { ballot, awardToken } = result.contract
   if (wallet && winners && proposals && address && ballot && awardToken) {
     log(null, 'success')
-    console.log(result)
-    // dapp(result)
-    // var el = dapp(opts, data, wallet)
-    // document.body.appendChild(el)
+    var el = dapp(result)
+    document.body.appendChild(el)
   } else log(new Error('fail'))
 }
