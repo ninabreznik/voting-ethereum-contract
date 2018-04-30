@@ -1,14 +1,13 @@
 {
-    "name": "workshop-paris",
+    "name": "dapp-workshop",
     "version": "1.0.0",
-    "description": "remix workshop",
-    "main": "index.js",
+    "description": "how to build a dapp with remix",
     "scripts": {
         "start": "budo src/index.js:bundle.js --dir ./ --live --open",
         "build": "browserify src/index.js > bundle.js"
     },
     "author": "",
-    "license": "ISC",
+    "license": "MIT",
     "dependencies": {
         "bel": "^6.0.0",
         "csjs-inject": "^1.0.1",
