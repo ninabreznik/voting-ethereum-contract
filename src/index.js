@@ -33,7 +33,8 @@ const input = bel`
   <input class=${css.input} type="text" placeholder="${hint}"/>
 `
 if (localStorage.address) input.value = localStorage.address
-document.body.appendChild(bel`
+if (localStorage.ignorePrompt) start()
+else document.body.appendChild(bel`
   <div class=${css.box}>
     ${input}
     <button class=${css.button} onclick=${start}> submit </button>
@@ -47,6 +48,7 @@ function start (event) {
   var address = input.value
   if (!address) return log(new Error('...no address provided'))
   localStorage.address = address
+  localStorage.ignorePrompt = true
   document.body.innerHTML = ''
   getMyAddress({
     wallet: null,
