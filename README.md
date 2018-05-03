@@ -1,24 +1,24 @@
 # voting-ethereum-contract
-## Demo frontend for voting through Solidity contract (Ethereum)
 
-First open [Remix](http://remix-alpha.ethereum.org/#optimize=false&version=soljson-v0.4.20+commit.3155dd80.js&gist=2bf3c8833eac0814cf3aa1672217b6fb) with all the files you will need for this project.
+## tutorial
+How to build and deploy a dapp for voting on proposals and minting tokens for the winner
 
-Then follow [this link](https://gist.github.com/serapath/2bf3c8833eac0814cf3aa1672217b6fb) to get instructions and resources you need to connect this UI with Solidity contracts you found in the previous link.
+1. The [slides](https://slides.com/ninabreznik/deck-11-12#/) give you an overview
+2. The [gist](https://gist.github.com/serapath/2bf3c8833eac0814cf3aa1672217b6fb) contains all relevant source code and detailed instructions
+3. You can open [remix](https://remix-alpha.ethereum.org/) and load the gist files by using remix terminal to execute:
+    * `remix:loadgist 2bf3c8833eac0814cf3aa1672217b6fb`
 
-
-
-## Run
+## develop
 ```sh
+git clone https://github.com/ninabreznik/voting-ethereum-contract.git
+cd voting-ethereum-contract
+npm install
 npm start
 ```
-## Build
 
+## build & publish
 ```sh
 npm run build
+git add -A && git commit -m "bundle"
+git push
 ```
-
-## Presentations
-* http://slides.com/ryestew/deck#/
-* http://slides.com/serapath/1-gas#/
-* http://slides.com/ninabreznik/deck-11#/
-* https://ninabreznik.github.io/voting-ethereum-contract/
