@@ -1,17 +1,62 @@
+const bel = require('bel')
+const csjs = require('csjs-inject')
+
 const web3 = require('_web3')
 const Ballot = require('_contracts/Ballot')
 const AwardToken = require('_contracts/AwardToken')
 const dapp = require('_dapp')
 const log = require('_logger')('index')
 
-getMyAddress({
-  wallet: null,
-  winners: null,
-  proposals: null,
-  address: null,
-  contract: { ballot: null, awardToken: null }
-}) // => Step 1
+/******************************************************************************
+  SETUP
+******************************************************************************/
+const css = csjs`
+  .box {
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 20px;
+  }
+  .input {
+    margin: 10px;
+    width: 500px;
+    font-size: 20px;
+  }
+  .button {
+    font-size: 20px;
+    width: 150px;
+  }
+`
+const hint = "Please enter AwardToken contract address"
+const input = bel`
+  <input class=${css.input} type="text" placeholder="${hint}"/>
+`
+if (localStorage.address) input.value = localStorage.address
+document.body.appendChild(bel`
+  <div class=${css.box}>
+    ${input}
+    <button class=${css.button} onclick=${start}> submit </button>
+  </div>
+`)
 
+/******************************************************************************
+  START
+******************************************************************************/
+function start (event) {
+  var address = input.value
+  if (!address) return log(new Error('...no address provided'))
+  localStorage.address = address
+  document.body.innerHTML = ''
+  getMyAddress({
+    wallet: null,
+    winners: null,
+    proposals: null,
+    ballot: null,
+    award: address,
+    contract: { ballot: null, awardToken: null }
+  }) // => Step 1
+}
 /******************************************************************************
   Step 1
 ******************************************************************************/
@@ -28,7 +73,7 @@ function getMyAddress (result) {
 ******************************************************************************/
 function getAwardTokenContract (result) {
   log(null, 'loading (2/7) - getAwardTokenContract')
-  AwardToken({}, (err, AwardTokenContract) => {
+  AwardToken({ address: result.award }, (err, AwardTokenContract) => {
     if (err) return done(err)
     result.contract.awardToken = AwardTokenContract
     getCurrentBallot(result) // => Step 3
@@ -49,7 +94,7 @@ function getCurrentBallot (result) {
   })
   awardToken.methods.currBallot().call({}, (err, address) => {
     if (err) return done(err)
-    result.address = address
+    result.ballot = address
     getBallotContract(result) // => Step 4
   })
 }
@@ -58,7 +103,7 @@ function getCurrentBallot (result) {
 ******************************************************************************/
 function getBallotContract (result) {
   log(null, 'loading (4/7) - getBallotContract')
-  Ballot({ address: result.address }, (err, BallotContract) => {
+  Ballot({ address: result.ballot }, (err, BallotContract) => {
     if (err) return done(err)
     result.contract.ballot = BallotContract
     getCurrentProposalAddresses(result) // => Step 5
@@ -82,18 +127,14 @@ function getCurrentProposalAddresses (result) {
 function getProposals (result) {
   log(null, 'loading (6/7) - getProposals')
   var counter = 0
-  const addresses = result.proposals
+  const { proposals: addresses, contract: { ballot } } = result
   result.proposals = []
-  console.warn('@TODO: test and maybe fix case where proposals are present')
   if (!addresses.length) finish(result) // => Step 7
   else addresses.forEach(address => {
-    BallotContract.methods.proposals(address).call({}, (err, proposal) => {
+    ballot.methods.proposals(address).call({}, (err, proposal) => {
       if (err) return done(err)
-      console.log(proposal.address)
       proposal.address = address
-      console.log(proposal.address)
-      console.log('======================')
-      proposals.push(proposal)
+      result.proposals.push(proposal)
       counter += 1
       if (counter === addresses.length) finish(result) // => Step 7
     })
@@ -115,9 +156,9 @@ function finish (result) {
 ******************************************************************************/
 function done (err, result) {
   if (err) return log(new Error(err))
-  const { wallet, winners, proposals, address } = result
-  const { ballot, awardToken } = result.contract
-  if (wallet && winners && proposals && address && ballot && awardToken) {
+  const { wallet, winners, proposals, ballot, award } = result
+  const { ballot: c1, awardToken: c2 } = result.contract
+  if (wallet && winners && proposals && ballot && award && c1 && c2) {
     log(null, 'success')
     var el = dapp(result)
     document.body.appendChild(el)
