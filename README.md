@@ -7,6 +7,7 @@ How to build and deploy a dapp for voting on proposals and minting tokens for th
 2. The [gist](https://gist.github.com/serapath/2bf3c8833eac0814cf3aa1672217b6fb) contains all relevant source code and detailed instructions
 3. You can open [remix](https://remix-alpha.ethereum.org/) and load the gist files by using remix terminal to execute:
     * `remix:loadgist 2bf3c8833eac0814cf3aa1672217b6fb`
+4. At the end clone this repository (frontend of your DApp)
 
 ## develop
 ```sh
